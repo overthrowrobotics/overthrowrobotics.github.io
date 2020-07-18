@@ -1,71 +1,87 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title></title>
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="style.css">
-<script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/scrollreveal.js/3.3.1/scrollreveal.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-<script src="timeline.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Roboto:100i,300,400,500,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Allura" rel="stylesheet">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
- 
-<header>
-  <div class="container text-center">
-    <h1>Race in America</h1>
-    <p>Is systemic racism in America real? The goal of this project is to show across a large number of measures at different stages in a person's life how their race can have an impact. Starting from before a person is born until their death there are clear differences based on race.</p>
-  </div>
-</header>
+  <head>
+    <title></title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/scrollreveal.js/3.3.1/scrollreveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+    <script src="timeline.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100i,300,400,500,700"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Allura"
+      rel="stylesheet"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <header>
+      <div class="container text-center">
+        <h1>Race in America</h1>
+        <p>
+          Is systemic racism in America real? The goal of this project is to
+          show across a large number of measures at different stages in a
+          person's life how their race can have an impact. Starting from before
+          a person is born until their death there are clear differences based
+          on race.
+        </p>
+      </div>
+    </header>
 
-<section class="timeline">
-  <div class="container">
+    <section class="timeline">
+      <div class="container">
         <!-- The Modal -->
-    <div id="myModal" class="modal">
+        <div id="myModal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Infants Whose Mothers Received Prenatal Care in the First Trimester, by Mother's Race/Ethnicity</p>
+            <svg width="960" height="500" id="svg1"></svg>
+            <p>Source: <a href="https://www.kidsdata.org/topic/313/prenatalcare-race/table#fmt=95&loc=2,127,347,1763,331,348,336,171,321,345,357,332,324,369,358,362,360,337,327,364,356,217,353,328,354,323,352,320,339,334,365,343,330,367,344,355,366,368,265,349,361,4,273,59,370,326,333,322,341,338,350,342,329,325,359,351,363,340,335&tf=88&ch=7,11,8,507,9,73" target="_blank">California Dept. of Public Health, Birth Statistical Master Files (Feb. 2019)</a></p>
+            <script>
+              async function init_prenatal() {
+                const data = await d3.csv(
+                  "https://overthrowrobotics.github.io/prenatal.csv"
+                );
 
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
-        <svg width="960" height="500" id="svg1"></svg>
-        <script>
+                // set the dimensions and margins of the graph
+                var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+                  width = 760 - margin.left - margin.right,
+                  height = 400 - margin.top - margin.bottom;
 
-        async function init_prenatal() {
-              
-            const data = await d3.csv('https://overthrowrobotics.github.io/prenatal.csv');
-                        
-            // set the dimensions and margins of the graph
-            var margin = {top: 20, right: 20, bottom: 30, left: 40},
-                width = 760 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+                // set the ranges
+                var x = d3.scaleBand().range([0, width]).padding(0.1);
+                var y = d3.scaleLinear().range([height, 0]);
 
-            // set the ranges
-            var x = d3.scaleBand()
-                      .range([0, width])
-                      .padding(0.1);
-            var y = d3.scaleLinear()
-                      .range([height, 0]);
-                      
-            // append the svg object to the body of the page
-            // append a 'group' element to 'svg'
-            // moves the 'group' element to the top left margin
-            var svg = d3.select("#svg1")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-              .append("g")
-                .attr("transform", 
-                      "translate(" + margin.left + "," + margin.top + ")");
+                // append the svg object to the body of the page
+                // append a 'group' element to 'svg'
+                // moves the 'group' element to the top left margin
+                var svg = d3
+                  .select("#svg1")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr(
+                    "transform",
+                    "translate(" + margin.left + "," + margin.top + ")"
+                  );
 
-
-            var div = d3.select("body").append("div") 
-                        .attr("class", "tooltip")       
-                        .style("opacity", 0);
-            // get the data
-            /*d3.csv("https://overthrowrobotics.github.io/prenatal.csv", function(error, data) {
+                var div = d3
+                  .select("body")
+                  .append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+                // get the data
+                /*d3.csv("https://overthrowrobotics.github.io/prenatal.csv", function(error, data) {
               if (error) throw error;
 
               // format the data
@@ -73,410 +89,1088 @@
                 d.Percent = +d.Percent;
               });*/
 
-              // Scale the range of the data in the domains
-              x.domain(data.map(function(d) { return d.Race; }));
-              y.domain([60, d3.max(data, function(d) { return d.Percent; })]);
+                // Scale the range of the data in the domains
+                x.domain(
+                  data.map(function (d) {
+                    return d.Race;
+                  })
+                );
+                y.domain([
+                  60,
+                  d3.max(data, function (d) {
+                    return d.Percent;
+                  }),
+                ]);
 
-              // append the rectangles for the bar chart
-              svg.selectAll(".bar")
+                // append the rectangles for the bar chart
+                svg
+                  .selectAll(".bar")
                   .data(data)
-                .enter().append("rect")
+                  .enter()
+                  .append("rect")
                   .attr("class", "bar")
                   .attr("fill", "steelblue")
-                  .attr("x", function(d) { return x(d.Race); })
+                  .attr("x", function (d) {
+                    return x(d.Race);
+                  })
                   .attr("width", x.bandwidth())
-                  .attr("y", function(d) { return y(d.Percent); })
-                  .attr("height", function(d) { return height - y(d.Percent); })
-                  .on("mouseover", function(d) {    
-                        div.transition()    
-                            .duration(200)    
-                            .style("opacity", .9);    
-                        div .html(d.Race + ": " + d.Percent)  
-                            .style("left", (d3.event.pageX) + "px")   
-                            .style("top", (d3.event.pageY -28 ) + "px");  
-                        })          
-                  .on("mouseout", function(d) {   
-                       div.transition()    
-                          .duration(500)    
-                          .style("opacity", 0); 
+                  .attr("y", function (d) {
+                    return y(d.Percent);
+                  })
+                  .attr("height", function (d) {
+                    return height - y(d.Percent);
+                  })
+                  .on("mouseover", function (d) {
+                    div.transition().duration(200).style("opacity", 0.9);
+                    div
+                      .html(d.Race + ": " + d.Percent)
+                      .style("left", d3.event.pageX + "px")
+                      .style("top", d3.event.pageY - 28 + "px");
+                  })
+                  .on("mouseout", function (d) {
+                    div.transition().duration(500).style("opacity", 0);
                   });
 
-              // add the x Axis
-              svg.append("g")
+                // add the x Axis
+                svg
+                  .append("g")
                   .attr("transform", "translate(0," + height + ")")
                   .call(d3.axisBottom(x));
 
-              // add the y Axis
-              svg.append("g")
-                  .call(d3.axisLeft(y));
+                // add the y Axis
+                svg.append("g").call(d3.axisLeft(y));
+              }
+            </script>
+          </div>
+        </div>
 
-            }
+        <div class="timeline-item">
+          <div class="timeline-img"></div>
 
-          </script>
-      </div>
+          <div class="timeline-content js--fadeInLeft">
+            <div class="date">Pre-natal care</div>
+            <br />
+            <p>
+              Infants Whose Mothers Received Prenatal Care in the First
+              Trimester, by Mother's Race/Ethnicity
+            </p>
+            <p>
+              Differences based on race can be seen before one is born. The
+              difference between white and native American mothers who receive
+              prenatal care in the First Trimester is almost 25%.
+            </p>
 
-    </div>
+            <!-- Trigger/Open The Modal -->
+            <button class="bnt-more" id="myBtn">Open Chart</button>
+          </div>
+          <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
 
-    
-    <div class="timeline-item">
-      <div class="timeline-img"></div>
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
 
-      <div class="timeline-content js--fadeInLeft">
-        
-        <div class="date">Pre-natal care</div>
-        <br>
-        <p>Infants Whose Mothers Received Prenatal Care in the First Trimester, by Mother's Race/Ethnicity</p>
-        <p>Differences based on race can be seen before one is born. The difference between white and native American mothers who receive prenatal care in the First Trimester is almost 25%.</p>
-        
-        <!-- Trigger/Open The Modal -->
-        <button class="bnt-more" id="myBtn">Open Chart</button>
+            // Get the <span> element that closes the modal
+            var span = modal.getElementsByClassName("close")[0];
 
+            // When the user clicks the button, open the modal
+            btn.onclick = function () {
+              modal.style.display = "block";
+            };
 
-      </div>
-      <script>
-          // Get the modal
-          var modal = document.getElementById("myModal");
-
-          // Get the button that opens the modal
-          var btn = document.getElementById("myBtn");
-
-          // Get the <span> element that closes the modal
-          var span = document.getElementsByClassName("close")[0];
-
-          // When the user clicks the button, open the modal 
-          btn.onclick = function() {
-            modal.style.display = "block";
-          }
-
-          // When the user clicks on <span> (x), close the modal
-          span.onclick = function() {
-            modal.style.display = "none";
-          }
-
-          // When the user clicks anywhere outside of the modal, close it
-          window.onclick = function(event) {
-            if (event.target == modal) {
+            // When the user clicks on <span> (x), close the modal
+            span.addEventListener("click", () => {
               modal.style.display = "none";
-            }
-          }
-
-          init_prenatal();
-      </script>
-
-
-    </div> 
-
-    <div id="myModal2" class="modal">
-
-      <!-- Modal content -->
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Some text in the Modal..</p>
-        <svg width="960" height="500" id="svg2"></svg>
-
-    <script>
-        async function init_infantMortality() {
-                  
-            const data = await d3.csv('https://overthrowrobotics.github.io/infant-mortality.csv');
-            
-            //console.log(data);
-
-            /*function(d){
-                return d.Black, d.White, d.Year;
-            }*/
-
-             // format the data
-            data.forEach(function(d) {
-               d.Year = +d.Year;
-               d.Black = +d.Black;
-               d.White = +d.White;
+              console.log("clicked");
             });
 
-            console.log(data.map(function(d) { return d.Year; }));
+            // When the user clicks anywhere outside of the modal, close it
+            window.addEventListener("click", function (event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            });
 
-            // set the dimensions and margins of the graph
-            var margin = {top: 20, right: 20, bottom: 30, left: 40},
-                 width = 760 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+            init_prenatal();
+          </script>
+        </div>
 
-            // set the ranges
-            var x = d3.scaleLinear()
-                      .domain([1915, 2013])
-                      .range([0, width]);
-            
-            console.log(x(2000),'test');
+        <div id="myModal2" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Infant Mortality Rate - White and Black</p>
+            <svg width="960" height="500" id="svg2"></svg>
+            <p><a href="https://data.cdc.gov/NCHS/NCHS-Infant-Mortality-Rates-by-Race-United-States-/ddsk-zebd" target="_blank">Source: NCHS - Infant Mortality Rates, by Race: United States, 1915-2013 </a></p>
 
-            var y = d3.scaleLinear()
-                      .range([height, 0])
-                      .domain([0, 200]);
+            <script>
+              async function init_infantMortality() {
+                const data = await d3.csv(
+                  "https://overthrowrobotics.github.io/infant-mortality.csv"
+                );
 
-            var svg = d3.select("#svg2")
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-                        .append("g")
-                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+                data.forEach(function (d) {
+                  d.Year = +d.Year;
+                  d.Black = +d.Black;
+                  d.White = +d.White;
+                });
 
-            
-            // define the 1st line
-            var valueline = d3.line()
-                .x(function(d) { return x(d.Year); })
-                .y(function(d) { return y(d.Black); });
+                console.log(
+                  data.map(function (d) {
+                    return d.Year;
+                  })
+                );
 
+                // set the dimensions and margins of the graph
+                var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+                  width = 760 - margin.left - margin.right,
+                  height = 400 - margin.top - margin.bottom;
 
-            // define the 2nd line
-            var valueline2 = d3.line()
-                .x(function(d) { return x(d.Year); })
-                .y(function(d) { return y(d.White); });
+                // set the ranges
+                var x = d3.scaleLinear().domain([1915, 2013]).range([0, width]);
 
-            var div = d3.select("body").append("div") 
-                        .attr("class", "tooltip")       
-                        .style("opacity", 0);
+                console.log(x(2000), "test");
 
-            
-            var tip = d3.tip().attr('class', 'd3-tip').html(function(d) {
-                var content = "<div class='d3tip-div'>";
-                content += '<p>Year: '+d.Year+'</p>'; 
-                content += '<p>Number of Black: '+d.Black+'</p>';
-                content += '</div>';
-                return content;
-            })
-            svg.call(tip);
+                var y = d3.scaleLinear().range([height, 0]).domain([0, 200]);
 
-            // Tool tip for White
-            var tipW = d3.tip().attr('class', 'd3-tip').html(function(d) {
-                var content = "<div class='d3tip-div'>";
-                content += '<p>Year: '+d.Year+'</p>'; 
-                content += '<p>Number of White: '+d.White+'</p>';
-                content += '</div>';
-                return content;
-            })
-            svg.call(tipW);
+                var svg = d3
+                  .select("#svg2")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr(
+                    "transform",
+                    "translate(" + margin.left + "," + margin.top + ")"
+                  );
 
+                // define the 1st line
+                var valueline = d3
+                  .line()
+                  .x(function (d) {
+                    return x(d.Year);
+                  })
+                  .y(function (d) {
+                    return y(d.Black);
+                  });
 
-            var dataPoints = svg.append("g")
-            console.log(data, 'data');
-               
-            dataPoints.selectAll(".unseen-circle")
+                // define the 2nd line
+                var valueline2 = d3
+                  .line()
+                  .x(function (d) {
+                    return x(d.Year);
+                  })
+                  .y(function (d) {
+                    return y(d.White);
+                  });
 
-               .data(data)
-               .enter()
-               .append("circle")
-               .attr("cx", function(d) {return x(d.Year); })
-               .attr("cy", function(d) {return y(d.Black); })
-               //.attr("height", 10)
-               //.attr('width', 10)
-               .attr("r", 5)
-               .attr("fill", 'white') // looks good
-               // .style('stroke', 'none')
-               .on('mouseover', tip.show)
-               .on('mouseout', tip.hide);
+                var div = d3
+                  .select("body")
+                  .append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
 
-            dataPoints.selectAll(".unseen-circle")
+                var tip = d3
+                  .tip()
+                  .attr("class", "d3-tip")
+                  .html(function (d) {
+                    var content = "<div class='d3tip-div'>";
+                    content += "<p>Year: " + d.Year + "</p>";
+                    content += "<p>Number of Black: " + d.Black + "</p>";
+                    content += "</div>";
+                    return content;
+                  });
+                svg.call(tip);
 
-               .data(data)
-               .enter()
-               .append("circle")
-               .attr("cx", function(d) {return x(d.Year); })
-               .attr("cy", function(d) {return y(d.White); })
-               //.attr("height", 10)
-               //.attr('width', 10)
-               .attr("r", 5)
-               .attr("fill", "white")
-               //.style('stroke', 'red')
-               .on('mouseover', tipW.show)
-               .on('mouseout', tipW.hide);
+                // Tool tip for White
+                var tipW = d3
+                  .tip()
+                  .attr("class", "d3-tip")
+                  .html(function (d) {
+                    var content = "<div class='d3tip-div'>";
+                    content += "<p>Year: " + d.Year + "</p>";
+                    content += "<p>Number of White: " + d.White + "</p>";
+                    content += "</div>";
+                    return content;
+                  });
+                svg.call(tipW);
 
+                var dataPoints = svg.append("g");
+                console.log(data, "data");
 
-            // Add the valueline path.
-            svg.append("path")
-               .data([data])
-               .attr("class", "line")
-               .style('stroke','blue')
-               .attr("fill", "none")
-               .attr("d", valueline);
+                dataPoints
+                  .selectAll(".unseen-circle")
 
-            // Add the valueline2 path.
-            svg.append("path")
-               .data([data])
-               .attr("class", "line")
-               .style("stroke", "red")
-               .attr("fill", "none")
-               .attr("d", valueline2);
+                  .data(data)
+                  .enter()
+                  .append("circle")
+                  .attr("cx", function (d) {
+                    return x(d.Year);
+                  })
+                  .attr("cy", function (d) {
+                    return y(d.Black);
+                  })
+                  .attr("r", 5)
+                  .attr("fill", "white") 
+                  .on("mouseover", tip.show)
+                  .on("mouseout", tip.hide);
 
-              // Add the X Axis
-            svg.append("g")
-               .attr("transform", "translate(0," + height + ")")
-               .call(d3.axisBottom(x));
+                dataPoints
+                  .selectAll(".unseen-circle")
 
-              // Add the Y Axis
-            svg.append("g")
-               .call(d3.axisLeft(y));    
+                  .data(data)
+                  .enter()
+                  .append("circle")
+                  .attr("cx", function (d) {
+                    return x(d.Year);
+                  })
+                  .attr("cy", function (d) {
+                    return y(d.White);
+                  })
+                  //.attr("height", 10)
+                  //.attr('width', 10)
+                  .attr("r", 5)
+                  .attr("fill", "white")
+                  //.style('stroke', 'red')
+                  .on("mouseover", tipW.show)
+                  .on("mouseout", tipW.hide);
 
-            svg.append("rect")
-                .attr("height", 30)
-                .attr("width", 30)
-                .attr("x", 500)
-                .attr("y", 50)
-                .style("fill", "red");
+                // Add the valueline path.
+                svg
+                  .append("path")
+                  .data([data])
+                  .attr("class", "line")
+                  .style("stroke", "blue")
+                  .attr("fill", "none")
+                  .attr("d", valueline);
 
-            svg.append("rect")
-                .attr("height", 30)
-                .attr("width", 30)
-                .attr("x", 500)
-                .attr("y", 90)
-                .style("fill", "blue");
+                // Add the valueline2 path.
+                svg
+                  .append("path")
+                  .data([data])
+                  .attr("class", "line")
+                  .style("stroke", "red")
+                  .attr("fill", "none")
+                  .attr("d", valueline2);
 
-            svg.append("text")
-                .attr("x", 540)
-                .attr("y", 69)
-                .text("White");
+                // Add the X Axis
+                svg
+                  .append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x));
 
-            svg.append("text")
-                .attr("x", 540)
-                .attr("y", 110)
-                .text("Black");
+                // Add the Y Axis
+                svg.append("g").call(d3.axisLeft(y));
 
-    }
+                svg
+                  .append("rect")
+                  .attr("height", 30)
+                  .attr("width", 30)
+                  .attr("x", 500)
+                  .attr("y", 50)
+                  .style("fill", "red");
 
-    </script>
+                svg
+                  .append("rect")
+                  .attr("height", 30)
+                  .attr("width", 30)
+                  .attr("x", 500)
+                  .attr("y", 90)
+                  .style("fill", "blue");
 
-    </div></div>
+                svg.append("text").attr("x", 540).attr("y", 69).text("White");
 
-    <div class="timeline-item">
+                svg.append("text").attr("x", 540).attr("y", 110).text("Black");
+              }
+            </script>
+          </div>
+        </div>
 
-      <div class="timeline-img"></div>
+        <div class="timeline-item">
+          <div class="timeline-img"></div>
 
-      <div class="timeline-content js--fadeInRight">
-        <div class="date">Infant Mortality</div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime ipsa ratione omnis alias cupiditate saepe atque totam aperiam sed nulla voluptatem recusandae dolor, nostrum excepturi amet in dolores. Alias, ullam.</p>
-        <button class="bnt-more" id="myBtn2">Open Modal</button>
-        
-      </div>
-      <script>
-          // Get the modal
-          var modal2 = document.getElementById("myModal2");
+          <div class="timeline-content js--fadeInRight">
+            <div class="date">Infant Mortality</div>
+            <br/>
+            <p>
+              The difference between Infant Mortality for white and black babies has persisted since record collection started in 1915. While the gap has closed, in 2013 black babies are still twice as likely to die at childbirth compared to white babies. 
+            </p>
+            <button class="bnt-more" id="myBtn2">Open Chart</button>
+          </div>
+          <script>
+            // Get the modal
+            var modal2 = document.getElementById("myModal2");
 
-          // Get the button that opens the modal
-          var btn2 = document.getElementById("myBtn2");
+            // Get the button that opens the modal
+            var btn2 = document.getElementById("myBtn2");
 
-          // Get the <span> element that closes the modal
-          var span2 = document.getElementsByClassName("close")[0];
+            // Get the <span> element that closes the modal
+            var span2 = modal2.getElementsByClassName("close")[0];
 
-          // When the user clicks the button, open the modal 
-          btn2.onclick = function() {
-            modal2.style.display = "block";
-          }
+            // When the user clicks the button, open the modal
+            btn2.onclick = function () {
+              modal2.style.display = "block";
+            };
 
-          // When the user clicks on <span> (x), close the modal
-          span2.onclick = function() {
-            modal2.style.display = "none";
-          }
-
-          // When the user clicks anywhere outside of the modal, close it
-          window.onclick = function(event) {
-            if (event.target == modal2) {
+            // When the user clicks on <span> (x), close the modal
+            span2.addEventListener("click", function () {
               modal2.style.display = "none";
-            }
-          }
+            });
 
-          init_infantMortality();
-      </script>
-    </div>   
+            // When the user clicks anywhere outside of the modal, close it
+            window.addEventListener("click", function (event) {
+              if (event.target == modal2) {
+                modal2.style.display = "none";
+              }
+            });
 
-    <div class="timeline-item">
-
-      <div class="timeline-img"></div>
-
-      <div class="timeline-content js--fadeInLeft">
-        <div class="date">3 JUN 2016</div>
-        <h2>Quote</h2>
-        <blockquote>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta explicabo debitis omnis dolor iste fugit totam quasi inventore!</blockquote>
-      </div>
-    </div>   
-
-    <div class="timeline-item">
-
-      <div class="timeline-img"></div>
-
-      <div class="timeline-content js--fadeInRight">
-        <h2>Title</h2>
-        <div class="date">22 JUN 2016</div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime ipsa ratione omnis alias cupiditate saepe atque totam aperiam sed nulla voluptatem recusandae dolor, nostrum excepturi amet in dolores. Alias, ullam.</p>
-        <a class="bnt-more" href="javascript:void(0)">More</a>
-      </div>
-    </div>   
-
-    <div class="timeline-item">
-
-      <div class="timeline-img"></div>
-
-      <div class="timeline-content timeline-card js--fadeInLeft">
-        <div class="timeline-img-header">
-          <h2>Card Title</h2>
+            init_infantMortality();
+          </script>
         </div>
-        <div class="date">10 JULY 2016</div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime ipsa ratione omnis alias cupiditate saepe atque totam aperiam sed nulla voluptatem recusandae dolor, nostrum excepturi amet in dolores. Alias, ullam.</p>
-        <a class="bnt-more" href="javascript:void(0)">More</a>
-      </div>
-    </div>   
 
-    <div class="timeline-item">
+        <div id="myModal3" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Childhood Death Rate by Race</p>
+            <svg width="960" height="500" id="svg3"></svg>
+            <p>Data Source: <a href="https://www.kidsdata.org/topic/256/childdeathrate-race/table#fmt=2319&loc=2,127,347,1763,331,348,336,171,321,345,357,332,324,369,358,362,360,337,327,364,356,217,353,328,354,323,352,320,339,334,365,343,330,367,344,355,366,368,265,349,361,4,273,59,370,326,333,322,341,338,350,342,329,325,359,351,363,340,335&tf=120&ch=7,11,8,10,9,73&sortColumnId=0&sortType=asc" target="_blank">California Dept. of Public Health, Death Statistical Master Files; California Dept. of Finance, Population Estimates by Race/Ethnicity with Age and Gender Detail 1990-2009; Population Reference Bureau, Population Estimates 2010-2016; CDC WONDER Online Database, Underlying Cause of Death 1999-2016 (Feb. 2019).</a></p>
 
-      <div class="timeline-img"></div>
+            <script>
+              async function init_childDeathRate() {
+                const data = await d3.csv(
+                  "https://overthrowrobotics.github.io/deathrate.csv"
+                );
 
-      <div class="timeline-content timeline-card js--fadeInRight">
-        <div class="timeline-img-header">
-          <h2>Card Title</h2>
+                // set the dimensions and margins of the graph
+                var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+                  width = 760 - margin.left - margin.right,
+                  height = 400 - margin.top - margin.bottom;
+
+                // set the ranges
+                var x = d3.scaleBand().range([0, width]).padding(0.1);
+                var y = d3.scaleLinear().range([height, 0]);
+
+                // append the svg object to the body of the page
+                // append a 'group' element to 'svg'
+                // moves the 'group' element to the top left margin
+                var svg = d3
+                  .select("#svg3")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr(
+                    "transform",
+                    "translate(" + margin.left + "," + margin.top + ")"
+                  );
+
+                var div = d3
+                  .select("body")
+                  .append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+                // get the data
+                /*d3.csv("https://overthrowrobotics.github.io/prenatal.csv", function(error, data) {
+              if (error) throw error;
+
+              // format the data
+              data.forEach(function(d) {
+                d.Percent = +d.Percent;
+              });*/
+
+                // Scale the range of the data in the domains
+                x.domain(
+                  data.map(function (d) {
+                    return d.Race;
+                  })
+                );
+                y.domain([
+                  0,
+                  d3.max(data, function (d) {
+                    return d.Percent;
+                  }),
+                ]);
+
+                // append the rectangles for the bar chart
+                svg
+                  .selectAll(".bar")
+                  .data(data)
+                  .enter()
+                  .append("rect")
+                  .attr("class", "bar")
+                  .attr("fill", "steelblue")
+                  .attr("x", function (d) {
+                    return x(d.Race);
+                  })
+                  .attr("width", x.bandwidth())
+                  .attr("y", function (d) {
+                    return y(d.Percent);
+                  })
+                  .attr("height", function (d) {
+                    return height - y(d.Percent);
+                  })
+                  .on("mouseover", function (d) {
+                    div.transition().duration(200).style("opacity", 0.9);
+                    div
+                      .html(d.Race + ": " + d.Percent)
+                      .style("left", d3.event.pageX + "px")
+                      .style("top", d3.event.pageY - 28 + "px");
+                  })
+                  .on("mouseout", function (d) {
+                    div.transition().duration(500).style("opacity", 0);
+                  });
+
+                // add the x Axis
+                svg
+                  .append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x));
+
+                // add the y Axis
+                svg.append("g").call(d3.axisLeft(y));
+              }
+            </script>
+          </div>
         </div>
-        <div class="date">30 JULY 2016</div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime ipsa ratione omnis alias cupiditate saepe atque totam aperiam sed nulla voluptatem recusandae dolor, nostrum excepturi amet in dolores. Alias, ullam.</p>
-        <a class="bnt-more" href="javascript:void(0)">More</a>
-      </div>
-    </div>  
 
-    <div class="timeline-item">
+        <div class="timeline-item">
+          <div class="timeline-img"></div>
 
-      <div class="timeline-img"></div>
+          <div class="timeline-content js--fadeInLeft">
+            <div class="date">Childhood Death Rate by Race</div>
+            <br /><p></p><p></p>
+            <p>Number of deaths per 100,000 children and youth ages 1-24, by race in California. Black children are almost 3x more likely to die compared to Asian.</p>
+          <button class="bnt-more" id="myBtn3">Open Chart</button>
+          </div>
+          <script>
+            // Get the modal
+            var modal3 = document.getElementById("myModal3");
 
-      <div class="timeline-content js--fadeInLeft">
-        <div class="date">5 AUG 2016</div>
-        <h2>Quote</h2>
-        <blockquote>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta explicabo debitis omnis dolor iste fugit totam quasi inventore!</blockquote>
-      </div>
-    </div>   
+            // Get the button that opens the modal
+            var btn3 = document.getElementById("myBtn3");
 
-    <div class="timeline-item">
+            // Get the <span> element that closes the modal
+            var span3 = modal3.getElementsByClassName("close")[0];
 
-      <div class="timeline-img"></div>
+            // When the user clicks the button, open the modal
+            btn3.onclick = function () {
+              modal3.style.display = "block";
+            };
 
-      <div class="timeline-content timeline-card js--fadeInRight">
-        <div class="timeline-img-header">
-          <h2>Card Title</h2>
+            // When the user clicks on <span> (x), close the modal
+            span3.addEventListener("click", function () {
+              modal3.style.display = "none";
+            });
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.addEventListener("click", function (event) {
+              if (event.target == modal3) {
+                modal3.style.display = "none";
+              }
+            });
+
+            init_childDeathRate();
+          </script>
         </div>
-        <div class="date">19 AUG 2016</div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime ipsa ratione omnis alias cupiditate saepe atque totam aperiam sed nulla voluptatem recusandae dolor, nostrum excepturi amet in dolores. Alias, ullam.</p>
-        <a class="bnt-more" href="javascript:void(0)">More</a>
+       
+       <div id="myModal4" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Living Arrangement for Children, by Presence of Parents and Race/Ethnicity</p>
+            <svg width="960" height="500" id="svg4"></svg>
+            <p>Data Source: <a href="https://www.kidsdata.org/topic/539/families-with-children-type-race10/table#fmt=723&loc=1,2&tf=108&ch=7,8,10,9,127,1428&sortColumnId=0&sortType=asc" target="_blank">Population Reference Bureau, analysis of data from the Current Population Survey Annual Social and Economic Supplement public use microdata files (Nov. 2018).</a></p>
+
+            <script>
+              async function init_parents() {
+                const data = await d3.csv(
+                  "https://overthrowrobotics.github.io/parents.csv"
+                );
+
+                // set the dimensions and margins of the graph
+                var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+                  width = 760 - margin.left - margin.right,
+                  height = 400 - margin.top - margin.bottom;
+
+                // set the ranges
+                var x = d3.scaleBand().range([0, width]).padding(0.1);
+                var y = d3.scaleLinear().range([height, 0]);
+
+                // append the svg object to the body of the page
+                // append a 'group' element to 'svg'
+                // moves the 'group' element to the top left margin
+                var svg = d3
+                  .select("#svg4")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr(
+                    "transform",
+                    "translate(" + margin.left + "," + margin.top + ")"
+                  );
+
+                var div = d3
+                  .select("body")
+                  .append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+                // get the data
+                /*d3.csv("https://overthrowrobotics.github.io/prenatal.csv", function(error, data) {
+              if (error) throw error;
+
+              // format the data
+              data.forEach(function(d) {
+                d.Percent = +d.Percent;
+              });*/
+
+                // Scale the range of the data in the domains
+                x.domain(
+                  data.map(function (d) {
+                    return d.Race;
+                  })
+                );
+                y.domain([
+                  0,
+                  d3.max(data, function (d) {
+                    return d.Percent;
+                  }),
+                ]);
+
+                // append the rectangles for the bar chart
+                svg
+                  .selectAll(".bar")
+                  .data(data)
+                  .enter()
+                  .append("rect")
+                  .attr("class", "bar")
+                  .attr("fill", "steelblue")
+                  .attr("x", function (d) {
+                    return x(d.Race);
+                  })
+                  .attr("width", x.bandwidth())
+                  .attr("y", function (d) {
+                    return y(d.Percent);
+                  })
+                  .attr("height", function (d) {
+                    return height - y(d.Percent);
+                  })
+                  .on("mouseover", function (d) {
+                    div.transition().duration(200).style("opacity", 0.9);
+                    div
+                      .html(d.Race + ": " + d.Percent)
+                      .style("left", d3.event.pageX + "px")
+                      .style("top", d3.event.pageY - 28 + "px");
+                  })
+                  .on("mouseout", function (d) {
+                    div.transition().duration(500).style("opacity", 0);
+                  });
+
+                // add the x Axis
+                svg
+                  .append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x));
+
+                // add the y Axis
+                svg.append("g").call(d3.axisLeft(y));
+
+                svg
+                  .append("circle")
+                  .attr("cx", 76)
+                  .attr("cy", 194)
+                  .attr("r", 50)
+                  .style("stroke", "red")
+                  .style("fill", "none");
+
+                svg.append("text")
+                   .attr("x", 14)
+                   .attr("y", 130)
+                   .attr("stroke", "red")
+                   .text("54% lower than Asian");
+
+              }
+            </script>
+          </div>
+        </div> 
+
+       <div class="timeline-item">
+          <div class="timeline-img"></div>
+
+          <div class="timeline-content js--fadeInRight">
+            
+            <div class="date">Two Parents at Home</div>
+            <br />
+            <p>
+              Half as many black children grow up with two parents present compared to Asian and White children. Children raised in single parent households are 5x more likely to be living in poverty. 
+            </p>
+            <button class="bnt-more" id="myBtn4">Open Chart</button>
+          </div>
+          <script>
+            // Get the modal
+            var modal4 = document.getElementById("myModal4");
+
+            // Get the button that opens the modal
+            var btn4 = document.getElementById("myBtn4");
+
+            // Get the <span> element that closes the modal
+            var span4 = modal4.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal
+            btn4.onclick = function () {
+              modal4.style.display = "block";
+            };
+
+            // When the user clicks on <span> (x), close the modal
+            span4.addEventListener("click", function () {
+              modal4.style.display = "none";
+            });
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.addEventListener("click", function (event) {
+              if (event.target == modal4) {
+                modal4.style.display = "none";
+              }
+            });
+
+            init_parents();
+          </script>
+        </div>
+
+        <div id="myModal5" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Juvenile Felony Arrest Rate by Race in California</p>
+            <svg width="960" height="500" id="svg5"></svg>
+            <p>Data Source: <a href="https://www.kidsdata.org/topic/166/arrest-rate-race/table#fmt=2334&loc=2,127,347,1763,331,348,336,171,321,345,357,332,324,369,358,362,360,337,327,364,356,217,353,328,354,323,352,320,339,334,365,343,330,367,344,355,366,368,265,349,361,4,273,59,370,326,333,322,341,338,350,342,329,325,359,351,363,340,335&tf=108&ch=7,10,9,127&sortColumnId=0&sortType=asc" target="_blank">California Dept. of Justice, Crime Statistics: Arrests; California Dept. of Finance, Population Estimates and Projections (May 2019).</a></p>
+
+            <script>
+              async function init_juvenileArrest() {
+                const data = await d3.csv(
+                  "https://overthrowrobotics.github.io/juvenileArrest.csv"
+                );
+
+                // set the dimensions and margins of the graph
+                var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+                  width = 760 - margin.left - margin.right,
+                  height = 400 - margin.top - margin.bottom;
+
+                // set the ranges
+                var x = d3.scaleBand().range([0, width]).padding(0.1);
+                var y = d3.scaleLinear().range([height, 0]);
+
+                // append the svg object to the body of the page
+                // append a 'group' element to 'svg'
+                // moves the 'group' element to the top left margin
+                var svg = d3
+                  .select("#svg5")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr(
+                    "transform",
+                    "translate(" + margin.left + "," + margin.top + ")"
+                  );
+
+                var div = d3
+                  .select("body")
+                  .append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+                
+                // Scale the range of the data in the domains
+                x.domain(
+                  data.map(function (d) {
+                    return d.Race;
+                  })
+                );
+                y.domain([
+                  0,22
+                  /*d3.max(data, function (d) {
+                    return d.Rate;
+                  }),*/
+                ]);
+
+                // append the rectangles for the bar chart
+                svg
+                  .selectAll(".bar")
+                  .data(data)
+                  .enter()
+                  .append("rect")
+                  .attr("class", "bar")
+                  .attr("fill", "steelblue")
+                  .attr("x", function (d) {
+                    return x(d.Race);
+                  })
+                  .attr("width", x.bandwidth())
+                  .attr("y", function (d) {
+                    return y(d.Rate);
+                  })
+                  .attr("height", function (d) {
+                    return height - y(d.Rate);
+                  })
+                  .on("mouseover", function (d) {
+                    div.transition().duration(200).style("opacity", 0.9);
+                    div
+                      .html(d.Race + ": " + d.Rate)
+                      .style("left", d3.event.pageX + "px")
+                      .style("top", d3.event.pageY - 28 + "px");
+                  })
+                  .on("mouseout", function (d) {
+                    div.transition().duration(500).style("opacity", 0);
+                  });
+
+                // add the x Axis
+                svg
+                  .append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x));
+
+                // add the y Axis
+                svg.append("g").call(d3.axisLeft(y));
+
+                svg
+                  .append("circle")
+                  .attr("cx", 95)
+                  .attr("cy", 30)
+                  .attr("r", 50)
+                  .style("stroke", "red")
+                  .style("fill", "none");
+
+                svg.append("text")
+                   .attr("x", 150)
+                   .attr("y", 20)
+                   .attr("stroke", "red")
+                   .text("Almost 10x White");
+
+
+
+              }
+            </script>
+          </div>
+        </div> 
+
+        <div class="timeline-item">
+          <div class="timeline-img"></div>
+
+          <div class="timeline-content js--fadeInLeft">
+            
+            <div class="date">Juvenile Felony Arrest Rate</div>
+            <br/>
+            <p>
+              Black juvenile's have almost 10x the felony arrest rate. Is this due to early childhood problems, police bias, or both? 
+            </p>
+            <button class="bnt-more" id="myBtn5">Open Chart</button>
+          </div>
+          <script>
+            // Get the modal
+            var modal5 = document.getElementById("myModal5");
+
+            // Get the button that opens the modal
+            var btn5 = document.getElementById("myBtn5");
+
+            // Get the <span> element that closes the modal
+            var span5 = modal5.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal
+            btn5.onclick = function () {
+              modal5.style.display = "block";
+            };
+
+            // When the user clicks on <span> (x), close the modal
+            span5.addEventListener("click", function () {
+              modal5.style.display = "none";
+            });
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.addEventListener("click", function (event) {
+              if (event.target == modal5) {
+                modal5.style.display = "none";
+              }
+            });
+
+            init_juvenileArrest();
+          </script>
+        </div>
+
+        <div id="myModal6" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Drug Use Among College Students by Race</p>
+            <p>Drug use among the general population is similar to this chart. This shows that controlling for education drug use is lower for black students than white students. In spite of this and other data that shows that drug sales as a percent are similar between white and black, black people are incarcerated at 4.8X higher rate (per 100k people) than white. 
+            <svg width="960" height="500" id="svg6"></svg>
+            <p>Data Source: <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2377408/" target="_blank">J Ethn Subst Abuse. 2007; 6(2): 75-95</a></p>
+
+            <script>
+              async function init_drugUse() {
+                const data = await d3.csv(
+                  "https://overthrowrobotics.github.io/collegedrugs.csv"
+                );
+
+                // set the dimensions and margins of the graph
+                var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+                  width = 760 - margin.left - margin.right,
+                  height = 400 - margin.top - margin.bottom;
+
+                // set the ranges
+                var x = d3.scaleBand().range([0, width]).padding(0.1);
+                var y = d3.scaleLinear().range([height, 0]);
+
+                // append the svg object to the body of the page
+                // append a 'group' element to 'svg'
+                // moves the 'group' element to the top left margin
+                var svg = d3
+                  .select("#svg6")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr(
+                    "transform",
+                    "translate(" + margin.left + "," + margin.top + ")"
+                  );
+
+                var div = d3
+                  .select("body")
+                  .append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+                
+                // Scale the range of the data in the domains
+                x.domain(
+                  data.map(function (d) {
+                    return d.Race;
+                  })
+                );
+                y.domain([
+                  0,50
+                  /*d3.max(data, function (d) {
+                    return d.Rate;
+                  }),*/
+                ]);
+
+                // append the rectangles for the bar chart
+                svg
+                  .selectAll(".bar")
+                  .data(data)
+                  .enter()
+                  .append("rect")
+                  .attr("class", "bar")
+                  .attr("fill", "steelblue")
+                  .attr("x", function (d) {
+                    return x(d.Race);
+                  })
+                  .attr("width", x.bandwidth())
+                  .attr("y", function (d) {
+                    return y(d.Percent);
+                  })
+                  .attr("height", function (d) {
+                    return height - y(d.Percent);
+                  })
+                  .on("mouseover", function (d) {
+                    div.transition().duration(200).style("opacity", 0.9);
+                    div
+                      .html(d.Race + ": " + d.Percent)
+                      .style("left", d3.event.pageX + "px")
+                      .style("top", d3.event.pageY - 28 + "px");
+                  })
+                  .on("mouseout", function (d) {
+                    div.transition().duration(500).style("opacity", 0);
+                  });
+
+                // add the x Axis
+                svg
+                  .append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x));
+
+                // add the y Axis
+                svg.append("g").call(d3.axisLeft(y));
+
+                svg
+                  .append("circle")
+                  .attr("cx", 213)
+                  .attr("cy", 98)
+                  .attr("r", 50)
+                  .style("stroke", "red")
+                  .style("fill", "none");
+
+                svg.append("text")
+                   .attr("x", 100)
+                   .attr("y", 30)
+                   .attr("stroke", "red")
+                   .text("20% Lower than White");
+
+                init_drugArrest();
+
+              }
+            </script>
+
+            <p>State Prison Population per 100k for Drug Arrests</p>
+            <svg width="960" height="500" id="svg7"></svg>
+            <p>Data Source: E. Ann Carson, PhD, and Elizabeth Anderson. Prisoners In 2015. Washington, DC: US Dept of Justice Bureau of Justice Statistics, Dec. 2016, NCJ250229, p. 30, Appendix Table 5. and Author Calculations based on US population in 2014.</a></p>
+
+            <script>
+              async function init_drugArrest() {
+                const data = await d3.csv(
+                  "https://overthrowrobotics.github.io/prison.csv"
+                );
+
+                // set the dimensions and margins of the graph
+                var margin = { top: 20, right: 20, bottom: 30, left: 40 },
+                  width = 760 - margin.left - margin.right,
+                  height = 400 - margin.top - margin.bottom;
+
+                // set the ranges
+                var x = d3.scaleBand().range([0, width]).padding(0.1);
+                var y = d3.scaleLinear().range([height, 0]);
+
+                // append the svg object to the body of the page
+                // append a 'group' element to 'svg'
+                // moves the 'group' element to the top left margin
+                var svg = d3
+                  .select("#svg7")
+                  .attr("width", width + margin.left + margin.right)
+                  .attr("height", height + margin.top + margin.bottom)
+                  .append("g")
+                  .attr(
+                    "transform",
+                    "translate(" + margin.left + "," + margin.top + ")"
+                  );
+
+                var div = d3
+                  .select("body")
+                  .append("div")
+                  .attr("class", "tooltip")
+                  .style("opacity", 0);
+                
+                // Scale the range of the data in the domains
+                x.domain(
+                  data.map(function (d) {
+                    return d.Race;
+                  })
+                );
+                y.domain([
+                  0,175
+                  /*d3.max(data, function (d) {
+                    return d.Rate;
+                  }),*/
+                ]);
+
+                // append the rectangles for the bar chart
+                svg
+                  .selectAll(".bar")
+                  .data(data)
+                  .enter()
+                  .append("rect")
+                  .attr("class", "bar")
+                  .attr("fill", "steelblue")
+                  .attr("x", function (d) {
+                    return x(d.Race);
+                  })
+                  .attr("width", x.bandwidth())
+                  .attr("y", function (d) {
+                    return y(d.Percent);
+                  })
+                  .attr("height", function (d) {
+                    return height - y(d.Percent);
+                  })
+                  .on("mouseover", function (d) {
+                    div.transition().duration(200).style("opacity", 0.9);
+                    div
+                      .html(d.Race + ": " + d.Percent)
+                      .style("left", d3.event.pageX + "px")
+                      .style("top", d3.event.pageY - 28 + "px");
+                  })
+                  .on("mouseout", function (d) {
+                    div.transition().duration(500).style("opacity", 0);
+                  });
+
+                // add the x Axis
+                svg
+                  .append("g")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(d3.axisBottom(x));
+
+                // add the y Axis
+                svg.append("g").call(d3.axisLeft(y));
+
+                svg
+                  .append("circle")
+                  .attr("cx", 94)
+                  .attr("cy", 40)
+                  .attr("r", 50)
+                  .style("stroke", "red")
+                  .style("fill", "none");
+
+                svg.append("text")
+                   .attr("x", 150)
+                   .attr("y", 25)
+                   .attr("stroke", "red")
+                   .text("4.8X higher rate");
+
+
+
+              }
+            </script>
+
+          </div>
+        </div> 
+
+        <div class="timeline-item">
+          <div class="timeline-img"></div>
+
+          <div class="timeline-content js--fadeInRight">
+            
+            <div class="date">Drug Arrests</div>
+            <br/>
+            <p>
+              While White and Black Americans sell drugs at the same rate (% of population) and White Americans consume drugs at slightly higher rates, Black Americans are jailed at significantly higher rates than White. 
+            </p>
+            <button class="bnt-more" id="myBtn6">Open Chart</button>
+          </div>
+          <script>
+            // Get the modal
+            var modal6 = document.getElementById("myModal6");
+
+            // Get the button that opens the modal
+            var btn6 = document.getElementById("myBtn6");
+
+            // Get the <span> element that closes the modal
+            var span6 = modal6.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal
+            btn6.onclick = function () {
+              modal6.style.display = "block";
+            };
+
+            // When the user clicks on <span> (x), close the modal
+            span6.addEventListener("click", function () {
+              modal6.style.display = "none";
+            });
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.addEventListener("click", function (event) {
+              if (event.target == modal6) {
+                modal6.style.display = "none";
+              }
+            });
+
+            init_drugUse();
+          </script>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-img"></div>
+
+          <div class="timeline-content js--fadeInLeft">
+            <div class="date">Inheritance</div>
+            <p></p><p></p>
+            <p>Wealth Disparity between races is caused not only by Black and Hispanic workers earning less than White and Asian but White people on average receive inheritance 2.85x larger than Black people. 
+            </p>
+          </div>
+        </div>
       </div>
-    </div>  
-
-    <div class="timeline-item">
-
-      <div class="timeline-img"></div>
-
-      <div class="timeline-content js--fadeInLeft">
-        <div class="date">1 SEP 2016</div>
-        <h2>Title</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime ipsa ratione omnis alias cupiditate saepe atque totam aperiam sed nulla voluptatem recusandae dolor, nostrum excepturi amet in dolores. Alias, ullam.</p>
-        <a class="bnt-more" href="javascript:void(0)">More</a>
-      </div>
-    </div>   
-
-
-
-  </div>
-</section>
-
-
-</body>
+    </section>
+    <footer>Author: <a href="mailto: cjonesy20@gmail.com">Chris Jones</a></footer>
+  </body>
 </html>
-
